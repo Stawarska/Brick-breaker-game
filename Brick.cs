@@ -7,5 +7,15 @@ public class Brick : MonoBehaviour
   public int points;
   public int hitsToBreak;
   public Sprite hitSprite;
+  public Sprite hitSprite2;
+
+  public void BreakBrick(){
+    hitsToBreak--;
+    GetComponent<SpriteRenderer>().sprite = hitSprite;
+    //hitsToBreak--;
+    //GetComponent<SpriteRenderer>().sprite = hitSprite2;
+  }
+  
+
 
 }

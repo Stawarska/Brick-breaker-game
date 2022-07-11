@@ -11,11 +11,13 @@ public class Ball : MonoBehaviour
     public Transform explosion;
     public Transform powerUp;
     public GameManager gameManager;
+    AudioSource audio;
 
     // Start is called before the first frame update
     void Start()
     {
         rb = GetComponent<Rigidbody2D> ();
+        audio = GetComponent<AudioSource>();
         
     }
 
@@ -55,19 +57,32 @@ public class Ball : MonoBehaviour
     void OnCollisionEnter2D(Collision2D other) {
         if (other.transform.CompareTag ("Brick"))
         {
-            int randChance = Random.Range(1, 101);
-            if (randChance < 10) {
+            Brick brickScript = other.gameObject.GetComponent<Brick>(); 
+
+            if(brickScript.hitsToBreak > 1){
+                brickScript.BreakBrick();
+                
+            } else {
+
+                int randChance = Random.Range(1, 101);
+
+                if (randChance < 10) {
                 Instantiate(powerUp, other.transform.position, other.transform.rotation);
+                }
+
+                Transform newExplosion = Instantiate(explosion, other.transform.position, other.transform.rotation);
+
+                Destroy (newExplosion.gameObject, 2.5f);
+
+                gameManager.UpdateScore(brickScript.points);
+
+                gameManager.UpdateNumberOfBricks();
+
+                Destroy (other.gameObject);
+
             }
 
-            Transform newExplosion = Instantiate(explosion, other.transform.position, other.transform.rotation);
-            Destroy (newExplosion.gameObject, 2.5f);
-
-            gameManager.UpdateScore(other.gameObject.GetComponent<Brick>().points);
-
-            gameManager.UpdateNumberOfBricks();
-
-            Destroy (other.gameObject);
+            audio.Play();
         }
     }
 }
