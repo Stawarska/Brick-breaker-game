@@ -28,12 +28,8 @@ public class GameManager : MonoBehaviour
         
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-
+  
+    // lives mechanism
     public void UpdateLives(int changeInLives){
         lives += changeInLives;
 
@@ -45,13 +41,15 @@ public class GameManager : MonoBehaviour
 
         livesText.text = "Lives " + lives;
     }
-
+    
+    //method to monitoring score
     public void UpdateScore (int points){
         score += points;
 
         scoreText.text = "Score: " + score;
     }
-
+    
+    //method to end level and load next or end game if it was the last one
     public void UpdateNumberOfBricks(){
         numberOfBricks--;
         if(numberOfBricks <=0){
@@ -66,6 +64,7 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    // method to load next level
     void LoadLevel(){
         currentLevelIndex++;
         Instantiate(levels[currentLevelIndex], Vector2.zero, Quaternion.identity);
@@ -74,6 +73,7 @@ public class GameManager : MonoBehaviour
         loadLevelPanel.SetActive(false);
     }
 
+    // method to active game over panel
     void GameOver(){
         gameOver = true;
         gameOverPanel.SetActive(true);
@@ -87,7 +87,8 @@ public class GameManager : MonoBehaviour
             highScoreText.text = PlayerPrefs.GetString("HIGHSCORENAME") + "'s " + "high score was " + highScore + "\n" + "Come on, you can beat it!";
         }
     }
-
+    
+    //Show the highest score
     public void NewHighScore(){
         string highScoreName = highScoreInput.text;
         PlayerPrefs.SetString("HIGHSCORENAME", highScoreName);
@@ -95,12 +96,18 @@ public class GameManager : MonoBehaviour
         highScoreText.text =  "Congratulations " + highScoreName + "\n" + "Your new high score is " + score;
     }
 
+    // Play again game at level 1 
     public void PlayAgain(){
         SceneManager.LoadScene("Brick breaker v1.1");
     }
 
+    // Open score board
+     public void ScoreBoard(){
+        SceneManager.LoadScene("Score Board");
+    }
+
+    // Quit game and back to start menu
     public void Quit(){
-        Application.Quit();
-        Debug.Log("Game quit");
+        SceneManager.LoadScene("Start Menu");
     }
 }
