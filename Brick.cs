@@ -12,8 +12,7 @@ public class Brick : MonoBehaviour
   public void BreakBrick(){
     hitsToBreak--;
     GetComponent<SpriteRenderer>().sprite = hitSprite;
-    //hitsToBreak--;
-    //GetComponent<SpriteRenderer>().sprite = hitSprite2;
+   
   }
   
 
